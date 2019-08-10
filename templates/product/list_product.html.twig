@@ -3,6 +3,12 @@
 {% block title %}List Products{% endblock %}
 
 {% block body %}
+    <h1 class="mb-3">Products List</h1>
+
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
     {% if products %}
         <table class="table table-striped">
             <thead>
@@ -24,7 +30,8 @@
         </table>
     {% else %}
         <div class="jumbotron">
-            <p class="text-danger">No Products Listed! Please Create One.</p>
+            <h1 class="text-danger">No Products Listed! <a href="/product/create">Please Create One.</a></h1>
         </div>
     {% endif %}
+    <a href="/product/create">Create a New Product</a>
 {% endblock %}
