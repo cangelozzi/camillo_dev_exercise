@@ -8,3 +8,4 @@
 /vendor/
 ###< symfony/framework-bundle ###
 .pdf
+.DS_Store
