@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Products{% endblock %}
+
+{% block body %}
+    {% if products %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td><a href="/product/{{product.id}}/edit" class="btn btn-warning">EDIT</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="jumbotron">
+            <p class="text-danger">No Products Listed! Please Create One.</p>
+        </div>
+    {% endif %}
+{% endblock %}
