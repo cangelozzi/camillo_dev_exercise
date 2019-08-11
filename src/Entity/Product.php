@@ -1,11 +1,12 @@
-<?php
+<?php 
 
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ * @ORM\Entity
  */
 class Product
 {
@@ -16,24 +17,10 @@ class Product
      */
     private $id;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     /**
-     * @ORM\Column(type="text", length=180)
+     * @ORM\Column(type="string")
      */
-    private $name;
-
-    public function getName() 
-    {
-        return $this->name;
-    }
-    public function setName($name) 
-    {
-        $this->name = $name;
-    }
+    protected $name;
 
     /**
      * @ORM\Column(type="text")
@@ -45,17 +32,79 @@ class Product
      */
     private $description;
 
-    public function getDescription() 
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $tag;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     */
+    protected $createdAt;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
     {
         return $this->description;
     }
-    public function setDescription($description) 
+
+    public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
     }
 
-    /**
-     * @ORM\Column(type="text", length=100)
-     */
-    private $tag;
+    public function getTag(): ?string
+    {
+        return $this->tag;
+    }
+
+    public function setTag(string $tag): self
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
 }

@@ -3,20 +3,31 @@
 {% block title %}List Products{% endblock %}
 
 {% block body %}
+    <h1 class="mb-3">Products List</h1>
+
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
     {% if products %}
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Product Name</th>
                     <th>Product Description</th>
+                    <th>Product Tag</th>
+                    <th>Product Added Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for product in products %}
+
                     <tr>
                         <td>{{ product.name }}</td>
                         <td>{{ product.description }}</td>
+                        <td>{{ product.tag }}</td>
+                        <td>{{ product.createdAt|date('d-M-Y H:i:s')  }}</td>
                         <td><a href="/product/{{product.id}}/edit" class="btn btn-warning">EDIT</a></td>
                     </tr>
                 {% endfor %}
@@ -24,7 +35,13 @@
         </table>
     {% else %}
         <div class="jumbotron">
-            <p class="text-danger">No Products Listed! Please Create One.</p>
+            <h1 class="text-danger">No Products Listed! <a href="/product/create">Please Create One.</a></h1>
         </div>
     {% endif %}
+    <a href="/product/create">Create a New Product</a>
+    <div class="mt-4">
+        {% for product in products %}
+            <span class="badge badge-primary">{{ product.tag }}</span>
+        {% endfor %}
+    </div>
 {% endblock %}
