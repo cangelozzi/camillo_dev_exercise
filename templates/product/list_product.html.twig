@@ -8,16 +8,20 @@
     {% for message in app.flashes('info') %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
+    {% for message in app.flashes('delete') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
 
     {% if products %}
-        <table class="table table-striped">
+        <table id="products" class="table table-striped">
             <thead>
                 <tr>
                     <th>Product Name</th>
                     <th>Product Image</th>
                     <th>Product Description</th>
                     <th>Product Added Date</th>
-                    <th>Actions</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +32,8 @@
                         <td class='w-25'><img src="{{ asset('uploads/') ~ product.image }}" alt="Show Product Image" class="rounded float-left w-50"></td>
                         <td>{{ product.description }}</td>
                         <td>{{ product.createdAt|date('d-M-Y H:i:s')  }}</td>
-                        <td><a href="/product/{{product.id}}/edit" class="btn btn-warning">EDIT</a></td>
+                        <td><a href="/product/{{product.id}}/edit" class="btn btn-primary">EDIT</a></td>
+                        <td><a href="#" class="btn btn-danger delete-product" data-id="{{ product.id }}">DELETE</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -39,4 +44,7 @@
         </div>
     {% endif %}
     <a href="/product/create">Create a New Product</a>
+{% endblock %}
+{% block javascripts %}
+    <script src="/js/main.js"></script>
 {% endblock %}
