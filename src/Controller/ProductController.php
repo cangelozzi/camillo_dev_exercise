@@ -11,11 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-// use Symfony\Component\Form\Extension\Core\Type\TextType;
-// use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-// use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-// use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ProductController extends AbstractController
 {
@@ -37,19 +36,14 @@ class ProductController extends AbstractController
     {
         $product = new Product();
 
-        $tag = new Tag();
-        $product->getTags()->add($tag);
-
-        $form = $this->createForm(ProductType::class, $product);
-
-
         // Create Form (GET)
-        // $form = $this->createFormBuilder($product)
-        //     ->add('name', TextType::class, ['attr' => ['class' => 'form-control']])
-        //     ->add('description', TextareaType::class, ['attr' => ['class' => 'form-control']])
-        //     ->add('tags', CollectionType::class, ['entry_type' => TagType::class,'allow_add' => true,'allow_delete' => true,'required' => false])
-        //     ->add('save', SubmitType::class, ['label' => 'Create', 'attr' => ['class' => 'btn btn-primary mt-3']] )
-        //     ->getForm();
+        $form = $this->createFormBuilder($product)
+            ->add('name', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('image', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('description', TextareaType::class, ['attr' => ['class' => 'form-control']])
+            ->add('tag', ChoiceType::class, ['placeholder' => 'Choose a Tag...', 'choices' => ['Sport' => 'Sport', 'Car' => 'Car']])
+            ->add('save', SubmitType::class, ['label' => 'Create', 'attr' => ['class' => 'btn btn-primary mt-3']] )
+            ->getForm();
 
         // Post data from Form (POST)
         $form->handleRequest($request);
@@ -75,19 +69,12 @@ class ProductController extends AbstractController
         ]);
     }
 
-        public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Product',
-        ));
-    }
-
     /**
      * @Route("/product/list", name="list")
      */
     public function list()
     {
-        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+        $products = $this->getDoctrine()->getRepository(Product::class)->findBy([],['createdAt' => 'DESC']);
         
         return $this->render('product/list_product.html.twig', [
             'controller_name' => 'ProductController',

@@ -33,9 +33,9 @@ class Product
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products", cascade={"persist"})
+     * @ORM\Column(type="text")
      */
-    protected $tags;
+    protected $tag;
 
     /**
      * @ORM\Column(type="datetime")
@@ -43,118 +43,68 @@ class Product
      */
     protected $createdAt;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Product
-     */
-    public function setName($name)
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
+    public function getImage(): ?string
     {
-        return $this->name;
+        return $this->image;
     }
 
-    /**
-     * Set image
-     *
-     * @param string $image
-     *
-     * @return Product
-     */
-    public function setImage($image)
+    public function setImage(string $image): self
     {
         $this->image = $image;
 
         return $this;
     }
 
-    /**
-     * Get image
-     *
-     * @return string
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    // description
-    public function getDescription() 
+    public function getDescription(): ?string
     {
         return $this->description;
     }
-    public function setDescription($description) 
+
+    public function setDescription(string $description): self
     {
         $this->description = $description;
-    }
-
-    /**
-     * Add tag
-     *
-     * @param \AppBundle\Entity\Tag $tag
-     *
-     * @return Product
-     */
-    public function addTag(\AppBundle\Entity\Tag $tag)
-    {
-        $this->tags[] = $tag;
 
         return $this;
     }
 
-    /**
-     * Remove tag
-     *
-     * @param \AppBundle\Entity\Tag $tag
-     */
-    public function removeTag(\AppBundle\Entity\Tag $tag)
+    public function getTag(): ?string
     {
-        $this->tags->removeElement($tag);
+        return $this->tag;
     }
 
-    /**
-     * Get tags
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTags()
+    public function setTag(string $tag): self
     {
-        return $this->tags;
+        $this->tag = $tag;
+
+        return $this;
     }
 
-    public function getCreated()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 }
