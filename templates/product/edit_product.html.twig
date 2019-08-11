@@ -3,6 +3,8 @@
 {% block title %}Edit Product{% endblock %}
 
 {% block body %}
-    <h1>{{ product.name }}</h1>
-    <p>{{ product.description }}</p>
+    <h1 class="mb-3">Edit Product</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}
