@@ -41,7 +41,7 @@ class ProductController extends AbstractController
             ->add('name', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('image', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('description', TextareaType::class, ['attr' => ['class' => 'form-control']])
-            ->add('tag', ChoiceType::class, ['placeholder' => 'Choose a Tag...', 'choices' => ['Sport' => 'Sport', 'Car' => 'Car']])
+            ->add('tag', ChoiceType::class, ['placeholder' => 'Choose a Tag...', 'choices' => ['Sport' => 'Sport', 'Music' => 'Music', 'Art' => 'Art']])
             ->add('save', SubmitType::class, ['label' => 'Create', 'attr' => ['class' => 'btn btn-primary mt-3']] )
             ->getForm();
 
@@ -75,7 +75,6 @@ class ProductController extends AbstractController
     public function list()
     {
         $products = $this->getDoctrine()->getRepository(Product::class)->findBy([],['createdAt' => 'DESC']);
-        
         return $this->render('product/list_product.html.twig', [
             'controller_name' => 'ProductController',
             'products' => $products,
