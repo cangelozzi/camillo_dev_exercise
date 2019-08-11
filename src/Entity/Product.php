@@ -35,7 +35,7 @@ class Product
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products", cascade={"persist"}, mappedBy="products")
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products", cascade={"persist"})
      */
     protected $tag;
 
