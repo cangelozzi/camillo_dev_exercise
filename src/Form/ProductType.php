@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProductType extends AbstractType
 {
@@ -17,7 +18,7 @@ class ProductType extends AbstractType
     {
         $builder->add('name', TextType::class, ['attr' => ['class' => 'form-control']]);
 
-        $builder->add('image', TextType::class, ['attr' => ['class' => 'form-control']]);
+        $builder->add('image', FileType::class, ['label' => 'Upload Image', 'attr' => ['class' => 'form-control-file']]);
         $builder->add('description', TextareaType::class, ['attr' => ['class' => 'form-control']]);
 
         $builder->add('tag', CollectionType::class, [

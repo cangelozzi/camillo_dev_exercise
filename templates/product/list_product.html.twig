@@ -14,6 +14,7 @@
             <thead>
                 <tr>
                     <th>Product Name</th>
+                    <th>Product Image</th>
                     <th>Product Description</th>
                     <th>Product Added Date</th>
                     <th>Actions</th>
@@ -24,6 +25,7 @@
 
                     <tr>
                         <td>{{ product.name }}</td>
+                        <td class='w-25'><img src="{{ asset('uploads/') ~ product.image }}" alt="Show Product Image" class="rounded float-left w-50"></td>
                         <td>{{ product.description }}</td>
                         <td>{{ product.createdAt|date('d-M-Y H:i:s')  }}</td>
                         <td><a href="/product/{{product.id}}/edit" class="btn btn-warning">EDIT</a></td>

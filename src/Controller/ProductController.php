@@ -44,6 +44,13 @@ class ProductController extends AbstractController
         // Post data from Form (POST)
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+
+            $file = $request->files->get('product')['image'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . "." . $file->guessExtension();
+            $file->move($uploads_directory, $filename);
+            $product->setImage($filename);
+
             $product = $form->getData();
 
             $entityManager = $this->getDoctrine()->getManager();
