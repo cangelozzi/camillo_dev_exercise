@@ -101,7 +101,7 @@ class ProductController extends AbstractController
             'delete',
             'Product Deleted!'
         );
-        
+
         // Fetch Response is expected
         $response = new Response();
         $response->send();
@@ -110,14 +110,40 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/product/{product}/edit", name="edit")
+     * Method({"GET", "POST"})
      */
-    public function edit($product)
+    public function edit(Request $request, $product)
     {
-        $edit_product = $this->getDoctrine()->getRepository(Product::class)->find($product);
+        $product = new Product();
+
+        //!  Getting Error "Binding entities to query parameters only allowed for entities that have an identifier."
+        $product = $this->getDoctrine()->getRepository(Product::class)->find($product);
+
+        $tag = new Tag();
+        $tag->setName('tag1');
+        $product->getTag()->add($tag);
+
+        $form = $this->createForm(ProductType::class, $product);
+
+        // Post data from Form (POST)
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $file = $request->files->get('product')['image'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . "." . $file->guessExtension();
+            $file->move($uploads_directory, $filename);
+            $product->setImage($filename);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush($product);
+
+            return $this->redirectToRoute('list');
+        }
 
         return $this->render('product/edit_product.html.twig', [
             'controller_name' => 'ProductController',
-            'product' => $edit_product,
+            'form' => $form->createView(),
         ]);
     }
 }
