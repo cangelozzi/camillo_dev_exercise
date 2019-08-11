@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -33,7 +35,7 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products", cascade={"persist"})
      */
     protected $tag;
 
@@ -42,6 +44,11 @@ class Product
      * @Gedmo\Timestampable(on="create")
      */
     protected $createdAt;
+
+    public function __construct()
+    {
+        $this->tag = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -84,18 +91,6 @@ class Product
         return $this;
     }
 
-    public function getTag(): ?string
-    {
-        return $this->tag;
-    }
-
-    public function setTag(string $tag): self
-    {
-        $this->tag = $tag;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -104,6 +99,32 @@ class Product
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTag(): Collection
+    {
+        return $this->tag;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tag->contains($tag)) {
+            $this->tag[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tag->contains($tag)) {
+            $this->tag->removeElement($tag);
+        }
 
         return $this;
     }

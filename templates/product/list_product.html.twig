@@ -15,7 +15,6 @@
                 <tr>
                     <th>Product Name</th>
                     <th>Product Description</th>
-                    <th>Product Tag</th>
                     <th>Product Added Date</th>
                     <th>Actions</th>
                 </tr>
@@ -26,7 +25,6 @@
                     <tr>
                         <td>{{ product.name }}</td>
                         <td>{{ product.description }}</td>
-                        <td>{{ product.tag }}</td>
                         <td>{{ product.createdAt|date('d-M-Y H:i:s')  }}</td>
                         <td><a href="/product/{{product.id}}/edit" class="btn btn-warning">EDIT</a></td>
                     </tr>
@@ -39,9 +37,4 @@
         </div>
     {% endif %}
     <a href="/product/create">Create a New Product</a>
-    <div class="mt-4">
-        {% for product in products %}
-            <span class="badge badge-primary">{{ product.tag }}</span>
-        {% endfor %}
-    </div>
 {% endblock %}

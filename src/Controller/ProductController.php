@@ -36,14 +36,10 @@ class ProductController extends AbstractController
     {
         $product = new Product();
 
-        // Create Form (GET)
-        $form = $this->createFormBuilder($product)
-            ->add('name', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('image', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('description', TextareaType::class, ['attr' => ['class' => 'form-control']])
-            ->add('tag', ChoiceType::class, ['placeholder' => 'Choose a Tag...', 'choices' => ['Sport' => 'Sport', 'Music' => 'Music', 'Art' => 'Art']])
-            ->add('save', SubmitType::class, ['label' => 'Create', 'attr' => ['class' => 'btn btn-primary mt-3']] )
-            ->getForm();
+        $tag = new Tag();
+        $product->getTag()->add($tag);
+
+        $form = $this->createForm(ProductType::class, $product);
 
         // Post data from Form (POST)
         $form->handleRequest($request);
