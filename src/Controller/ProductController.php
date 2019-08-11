@@ -85,6 +85,30 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/product/{id}/delete", name="delete")
+     * @Method({"DELETE"})
+     */
+    public function delete(Request $request, $id)
+    {
+        $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($product);
+        $entityManager->flush();
+
+        // add delete message when deleted
+        $this->addFlash(
+            'delete',
+            'Product Deleted!'
+        );
+        
+        // Fetch Response is expected
+        $response = new Response();
+        $response->send();
+
+    }
+
+    /**
      * @Route("/product/{product}/edit", name="edit")
      */
     public function edit($product)
